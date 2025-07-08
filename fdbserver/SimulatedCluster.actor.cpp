@@ -1926,6 +1926,9 @@ void SimulationConfig::setReplicationType(const TestConfig& testConfig) {
 			set_config(format("log_spill:=%d", logSpill));
 			int logVersion =
 			    deterministicRandom()->randomInt(TLogVersion::MIN_RECRUITABLE, testConfig.maxTLogVersion + 1);
+			if (SERVER_KNOBS->ENABLE_VERSION_VECTOR) {
+				logVersion = 8;
+			}
 			set_config(format("log_version:=%d", logVersion));
 		} else {
 			if (deterministicRandom()->random01() < 0.7)
